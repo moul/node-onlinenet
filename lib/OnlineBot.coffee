@@ -35,8 +35,17 @@ class OnlineBot extends BaseBot
         @visit "server/list", =>
             $ = @getjQuery()
             servers = []
-            $('tr td:nth-child(2)').each ->
-                servers.push parseInt $(@).html()
+            $('tr').each ->
+                id = parseInt $(@).find('td:nth-child(2)').text().trim()
+                if id > 0
+                    server =
+                        id: id
+                        valid: !!$(@).find('td:nth-child(1) img').attr('src').match(/valid/)
+                        distrib: $(@).find('td:nth-child(3) img').attr('src').split('_')[1].split('.')[0]
+                        offer: $(@).find('td:nth-child(4)').text().trim()
+                        ip: $(@).find('td:nth-child(5)').text().trim()
+                        reverse: $(@).find('td:nth-child(6)').text().trim()
+                    servers.push server
             @options.servers = servers
             @debug "Server list: #{servers}"
             fn @options.servers if fn
