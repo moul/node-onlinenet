@@ -47,27 +47,24 @@ class OnlineBot extends BaseBot
                         reverse: $(@).find('td:nth-child(6)').text().trim()
                     servers.push server
             @options.servers = servers
-            @debug "Server list: #{servers}"
+            @debug "Server list: #{server.id for server in servers}"
             fn @options.servers if fn
 
-    getServerStats: (server_id = null, fn = null) =>
+    getServerStats: (server_id, fn = null) =>
         @debug "getServerStats()"
-        server_id = @options.servers[0].id if not server_id
         that = @
         @visit "server/stats/#{server_id}", =>
             $ = @getjQuery()
             current = stats = {}
             $('.content .box').find('img, h3').each ->
                 elem = $(@)
-                if elem.is 'h3'
-                    val = elem.text()
-                    that.debug "new h3: #{val}"
-                    current = stats[elem.text()] = {}
-                else if elem.is 'img'
-                    val = elem.attr('src')
-                    that.debug "new img: #{val}"
-                    current[val] = val
-            console.log stats
+                if elem.is 'img'
+                    href = elem.attr('src')
+                    split = href.split('/')[3].split('-')
+                    [period, type] = split[split.length - 2].split('_')
+                    type = 'multi' if split[0] is 'multi'
+                    stats[type] = {} unless stats[type]?
+                    stats[type][period] = href
             fn stats if fn
 
     servers: (fn) =>

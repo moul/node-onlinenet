@@ -17,5 +17,5 @@ bot.auth ->
             bot.getServerStats server.id, (stats) ->
                 for kind, graphs of stats
                     console.log "=== #{kind} ==="
-                    for graph in graphs
-                        console.log graph
+                    for period, graph of graphs
+                        console.log "#{period}: #{graph}"
