@@ -51,9 +51,24 @@ class OnlineBot extends BaseBot
             fn @options.servers if fn
 
     getServerStats: (server_id = null, fn = null) =>
-        server_id = @options.servers[0] if not server_id
+        @debug "getServerStats()"
+        server_id = @options.servers[0].id if not server_id
+        that = @
         @visit "server/stats/#{server_id}", =>
-            console.log "LOADED"
+            $ = @getjQuery()
+            current = stats = {}
+            $('.content .box').find('img, h3').each ->
+                elem = $(@)
+                if elem.is 'h3'
+                    val = elem.text()
+                    that.debug "new h3: #{val}"
+                    current = stats[elem.text()] = {}
+                else if elem.is 'img'
+                    val = elem.attr('src')
+                    that.debug "new img: #{val}"
+                    current[val] = val
+            console.log stats
+            fn stats if fn
 
     servers: (fn) =>
         if @options.servers?.length
