@@ -20,6 +20,16 @@ class OnlineBot extends BaseBot
                 @authenticated = true
                 do fn if fn
 
+    getLastActivity: (fn = null) =>
+        @debug "getLastActivity()"
+        @visit "account/home", =>
+            $ = @getjQuery()
+            activity = []
+            $('.content .box table:nth(1) tr td').each ->
+                activity.push $(this).html().trim().replace(/[\n\t]/g, ' ').replace(/\ \ */g, ' ')
+            @debug "Activity list: #{activity.length} entries"
+            fn activity
+
     getServersList: (fn = null) =>
         @debug "getServersList()"
         @visit "server/list", =>
