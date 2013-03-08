@@ -1,3 +1,4 @@
 module.exports =
-    username: 'username'
-    password: 'password'
+  username: 'username'
+  password: 'password'
+  apiKey:   'xxxxxxxx'
