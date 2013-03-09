@@ -2,11 +2,11 @@
 
 class Loc extends Entity
   getAllRooms: (fn) =>
-    @call 'loc/getAllRooms', fn =>
+    @call 'loc/getAllRooms', fn
     # http://console.online.net/api/v1/loc/getAllRooms
 
   getAllZones: (fn) =>
-    @call 'loc/getAllZones', fn =>
+    @call 'loc/getAllZones', fn
     # http://console.online.net/api/v1/loc/getAllZones
 
   getAllDatacenters: (fn) =>
