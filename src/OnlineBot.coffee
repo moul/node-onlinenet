@@ -15,7 +15,8 @@ class OnlineBot extends BaseBot
     @visit "login", =>
       @browser.fill '_username', @options.username
       @browser.fill '_password', @options.password
-      @browser.pressButton 'Sign in', =>
+      @browser.querySelector('form').submit => console.log 'onsubmit'
+      @browser.wait =>
         @debug "Signed in"
         @authenticated = true
         do fn if fn
