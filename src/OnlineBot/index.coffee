@@ -26,7 +26,7 @@ class OnlineBot extends BaseBot
     @visit "account/home", =>
       $ = @getjQuery()
       activity = []
-      $('.content .box table:nth(1) tr td').each ->
+      $('.content .box table:nth(0) tr td').each ->
         activity.push $(this).html().trim().replace(/[\n\t]/g, ' ').replace(/\ \ */g, ' ')
       @debug "Activity list: #{activity.length} entries"
       fn activity
