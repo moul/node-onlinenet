@@ -1,4 +1,3 @@
-request = require 'request'
 url     = require 'url'
 
 class module.exports.ApiV1
