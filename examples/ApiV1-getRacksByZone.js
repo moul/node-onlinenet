@@ -12,11 +12,12 @@
     verbose: true
   });
 
-  api.hw.getRacksByZone(15, function(err, racks) {
+  api.hw.getRacksByZone(15, function(err, racks, entities) {
     if (err) {
       return console.log(err);
     }
-    return console.log(racks);
+    console.log('racks', racks);
+    return console.log('entities', entities);
   });
 
 }).call(this);

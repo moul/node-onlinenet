@@ -8,6 +8,7 @@ api = new ApiV1
   apiKey:   credentials.apiKey
   verbose:  true
 
-api.hw.getRacksByZone 15, (err, racks) =>
+api.hw.getRacksByZone 15, (err, racks, entities) =>
   return console.log err if err
-  console.log racks
+  console.log 'racks',    racks
+  console.log 'entities', entities

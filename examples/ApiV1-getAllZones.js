@@ -12,11 +12,12 @@
     verbose: true
   });
 
-  api.loc.getAllZones(function(err, zones) {
+  api.loc.getAllZones(function(err, zones, entities) {
     if (err) {
       return console.log(err);
     }
-    return console.log(zones);
+    console.log('zones', zones);
+    return console.log('entities', entities);
   });
 
 }).call(this);

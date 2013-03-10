@@ -8,6 +8,7 @@ api = new ApiV1
   apiKey:   credentials.apiKey
   verbose:  true
 
-api.loc.getAllRooms (err, rooms) =>
+api.loc.getAllRooms (err, rooms, entities) =>
   return console.log err if err
-  console.log rooms
+  console.log 'rooms',    rooms
+  console.log 'entities', entities

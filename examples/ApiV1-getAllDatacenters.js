@@ -12,11 +12,12 @@
     verbose: true
   });
 
-  api.loc.getAllDatacenters(function(err, datacenters) {
+  api.loc.getAllDatacenters(function(err, datacenters, entities) {
     if (err) {
       return console.log(err);
     }
-    return console.log(datacenters);
+    console.log('datacenters', datacenters);
+    return console.log('entities', entities);
   });
 
 }).call(this);

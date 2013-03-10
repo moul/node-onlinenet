@@ -8,6 +8,7 @@ api = new ApiV1
   apiKey:   credentials.apiKey
   verbose:  true
 
-api.loc.getAllDatacenters (err, datacenters) =>
+api.loc.getAllDatacenters (err, datacenters, entities) =>
   return console.log err if err
-  console.log datacenters
+  console.log 'datacenters', datacenters
+  console.log 'entities',    entities

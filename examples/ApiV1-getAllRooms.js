@@ -12,11 +12,12 @@
     verbose: true
   });
 
-  api.loc.getAllRooms(function(err, rooms) {
+  api.loc.getAllRooms(function(err, rooms, entities) {
     if (err) {
       return console.log(err);
     }
-    return console.log(rooms);
+    console.log('rooms', rooms);
+    return console.log('entities', entities);
   });
 
 }).call(this);
