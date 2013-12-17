@@ -1,19 +1,12 @@
 url     = require 'url'
+request = require 'request'
 
 class module.exports.ApiV1
   constructor: (@opts = {}) ->
-    @opts.enabledEntities ?= ['loc', 'hw']
+    @opts.enabledEntities ?= ['loc', 'hw', 'server']
     @opts.verbose         ?= false
-    @opts.url             ?= 'http://console.online.net/api/v1/'
-    @opts[k]?= v for k, v of url.parse @opts.url
-    @http                 =  if @opts.protocol is 'https:' then require 'https' else require 'http'
-    @opts.basePath        ?= @opts.path
+    @opts.url             ?= 'https://console.online.net/api/v1/'
     @opts.method          ?= 'GET'
-    @opts.port ?= 80
-
-    delete @opts.path
-    delete @opts.url
-    delete @opts.slashes
 
     for key in @opts.enabledEntities
       entity = require "./entities/#{key}"
@@ -21,24 +14,29 @@ class module.exports.ApiV1
 
   call: (args, fn) =>
     @fetch args, (err, data) =>
-      return fn err, data if err
+      return fn err,   data            if err
       return fn false, JSON.parse data
 
-  fetch: (args, fn) =>
-    if typeof(args) is 'string'
-      args = path: args
-    args[k] ?= v for k, v of @opts
-    args.pathSuffix = args.path
-    args.path = "#{args.basePath}#{args.pathSuffix}"
-    args['auth'] = "#{@opts.apiKey}:"
-    req = @http.request args
-    req.on 'error', (err) -> fn err, {}
-    req.on 'response', (response) ->
-      buffer = ''
-      response.on 'data', (chunk) -> buffer += chunk
-      response.on 'end', ->
-        switch response.statusCode
-          when 401 then fn {"code": "AUTH REQUIRED"}, buffer
-          when 200 then fn null, buffer if fn
-          else          fn {"code": "BADSTATUSCODE", "message": response.statusCode}, buffer
-    req.end()
+  fetch: (opts, fn) =>
+    if typeof(opts) is 'string'
+      opts = path: opts
+    opts.uri = "#{@opts.url}#{opts.path}"
+    opts.headers = {}
+    opts.headers['Authorization'] = "Bearer #{@opts.apiKey}"
+    opts.hostname = @opts.hostname
+
+    if @opts.verbose
+      opts.headers['X-Pretty-JSON'] = 1
+      console.info opts
+
+    callback = (err, response, body) =>
+      return fn err, response, body if err
+
+      switch response.statusCode
+        when 200 then # everything is ok
+        when 401 then err = {"code": "AUTH REQUIRED"}
+        else          err = {"code": "BADSTATUSCODE", "message": response.statusCode}
+
+      fn err, body
+
+    req = request opts, callback
