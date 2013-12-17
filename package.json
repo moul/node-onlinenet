@@ -1,6 +1,6 @@
 {
   "name": "onlinenet",
-  "version": "0.2.3",
+  "version": "0.3.1",
   "description": "Online.net bot library",
   "main": "index.coffee",
   "directories": {
