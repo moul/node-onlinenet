@@ -3,7 +3,7 @@ request = require 'request'
 
 class module.exports.ApiV1
   constructor: (@opts = {}) ->
-    @opts.enabledEntities ?= ['loc', 'hw', 'server', 'abuse', 'user']
+    @opts.enabledEntities ?= ['loc', 'hw', 'server', 'abuse', 'user', 'network']
     @opts.verbose         ?= false
     @opts.url             ?= 'https://console.online.net/api/v1/'
     @opts.method          ?= 'GET'
