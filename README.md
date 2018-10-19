@@ -1,6 +1,8 @@
 Online.net API node.js client
 =============================
 
+[![GuardRails badge](https://badges.production.guardrails.io/moul/node-onlinenet.svg)](https://www.guardrails.io)
+
 ```bash
 npm install onlinenet
 ```
